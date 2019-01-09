@@ -1,0 +1,13 @@
+Part,Build component,Amount,Units,Notes,,,
+Raspberry pi 3 B,1,1,,,,1,Base electrical
+Kill switch,1,1,,,,2,Lighting and fire
+12v Lithium battery,1,1-2,,,,3,Trigger
+WS2812 LED strip waterproof,2,20,m,,,4,Mouth
+VL6180 range sensor,3,1,,,,5,Physical
+Push button,3,2,,,,,
+Rubbish bin,5,1,,,,,
+Flax/decoration,5,?,,,,,
+Trailer,5,1,,,,,
+U bolts,5,4,,,,,
+Ply,1&5,30x1000x1000,mm,Internal housing,,,
+Zip ties,5,2,packets,,,,
