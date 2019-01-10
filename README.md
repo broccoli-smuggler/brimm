@@ -7,7 +7,7 @@ The idea is to provide an experience that encourages correct rubbish disposal. T
 ## Part 1 - A rubbish bin
 We'll convert a rubbish bin into a friendly monster that talks, lights up (and hopefully) belches fire in response to human interactions. The monster will be surprising and fun to interact with. 
 
-![Alt text](brimm_2.jpg)
+![Alt text](brimm.jpg)
 
 BOM
 https://docs.google.com/spreadsheets/d/1yVDrTSlCtS1k4X6xUT0yPUyhm17ppG_9IsI53mKKvTw/edit?usp=sharing
