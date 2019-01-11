@@ -21,5 +21,6 @@ To achieve the power demands we need a step down converter with a high ampage su
 ### Lighting
 
 ### Trigger
+https://www.st.com/en/evaluation-tools/vl6180x-satel.html#design-scroll
 
 ### Mouth
