@@ -21,6 +21,32 @@ To achieve the power demands we need a step down converter with a high ampage su
 ### Lighting
 
 ### Trigger
+For the mouth trigger we will use a simple range sensor to detect when the bin lid opens and closes. This is a proxy for someone putting rubbish in. This will allow us to be reactive to interaction. Eventually it would be nice to use a camera to do this directly rather than depending on heuristics.
+
+The range sensor we will use is the VL6180X sattalite board. Coincediently this board is also produced by adafruit, so there's plently of useage examples floating around.
+
 https://www.st.com/en/evaluation-tools/vl6180x-satel.html#design-scroll
 
+#### Testing wiring and setup
+![gpio](gpio.jpg)
+*gpio wiring*
+
+To use the range sensor, we first need to enable i2c: 
+
+``sudo rasp-config``
+
+Then, enable the gpio line to the sensor, if it is on pin 23: 
+
+``echo "23" > /sys/class/gpio/export``
+
+``echo "out" > /sys/class/gpio/gpio23/direction ``
+
+``echo "1" > /sys/class/gpio/gpio23/value ``
+
+This should mean that the sensor appears at address 0x29 when running
+
+``i2cdetect -y 1``
+
 ### Mouth
+
+Record sounds
