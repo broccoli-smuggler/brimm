@@ -37,11 +37,15 @@ To use the range sensor, we first need to enable i2c:
 
 Then, enable the gpio line to the sensor, if it is on pin 23: 
 
-``echo "23" > /sys/class/gpio/export 
-echo "out" > /sys/class/gpio/gpio23/direction 
-echo "1" > /sys/class/gpio/gpio23/value ``
+``echo "23" > /sys/class/gpio/export``
 
-This should mean that the sensor appears on address 0x29 when running  
+``echo "out" > /sys/class/gpio/gpio23/direction ``
+
+``echo "1" > /sys/class/gpio/gpio23/value ``
+
+This should mean that the sensor appears at address 0x29 when running
+
+``i2cdetect -y 1``
 
 ### Mouth
 
