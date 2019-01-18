@@ -5,6 +5,7 @@ from itertools import izip
 
 green = Color(120, 255, 0)
 red = Color(255, 0, 0)
+white = Coor(255, 255, 255)
 
 
 class Lights:
@@ -31,7 +32,8 @@ class Lights:
         self.open_count = 0
 
     def normal(self):
-        pass
+        self.set_colour(self.MOUTH, white)
+        self.set_colours([self.L_EYE, self.R_EYE], [self.get_random_colour(), self.get_random_colour()])
 
     def flash_eyes(self, times=1):
         for i in range(times):
@@ -50,6 +52,7 @@ class Lights:
     def on_close(self):
         self.open_count += 1
         self.colour_wipe(self.ALL, Color(0, 0, 0), 1, 5)
+        self.normal()
 
     def clear_all(self):
         for i in self.ALL:
@@ -86,3 +89,6 @@ class Lights:
                 self.strip.show()
                 sleep(wait_ms/1000.0)
 
+    @staticmethod
+    def get_random_colour():
+        return Color(random.randint(0, 254), random.randint(0, 254), random.randint(0, 254))
