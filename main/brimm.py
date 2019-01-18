@@ -1,5 +1,6 @@
 import lights
 import trigger
+import samples
 import sys
 
 debug = False
@@ -9,6 +10,7 @@ if len(sys.argv) > 1:
 
 trigger = trigger.Trigger(23)
 lights = lights.Lights()
+samples = samples.SamplePlayer()
 
 p_is_open = False
 
@@ -17,8 +19,9 @@ while True:
     if is_open is not p_is_open:
         p_is_open = is_open
         if is_open:
-            lights.set_colour(range(lights.strip.numPixels()), Color(124,123,100))
+            lights.on_open()
+            samples.play_random()
             print("opening")
         else:
-            lights.colour_wipe(Color(0,0,0), 1, 5)
+            lights.on_close()
             print("closing")
