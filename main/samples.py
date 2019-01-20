@@ -1,16 +1,15 @@
-import pygame
 import os
-import random
+os.environ['SDL_AUDIODRIVER'] = 'dsp'
 
+import pygame.mixer
+import random
 
 class SamplePlayer:
     def __init__(self, samples_folder='../sounds'):
-        pygame.init()
         pygame.mixer.init()
-        print pygame.mixer.get_init()
         self.samples = []
-        self.channel = pygame.mixer.Channel(0)
-        self.channel.set_volume(0.8)
+        #self.channel = pygame.mixer.Channel(0)
+        #self.channel.set_volume(0.8)
 
         for sample_file in os.listdir(samples_folder):
             if sample_file.endswith('.ogg'):

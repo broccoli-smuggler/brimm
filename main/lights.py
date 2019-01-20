@@ -3,15 +3,16 @@ from neopixel import *
 import random
 from itertools import izip
 
-green = Color(120, 255, 0)
-red = Color(255, 0, 0)
-white = Coor(255, 255, 255)
+green = Color(255, 120, 0)
+red = Color(0, 255, 0)
+white = Color(255, 255, 255)
+off = Color(0,0,0)
 
 
 class Lights:
     def __init__(self):
         # LED strip configuration:
-        LED_COUNT      = 300     # Number of LED pixels.
+        LED_COUNT      = 60     # Number of LED pixels.
         LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
         #LED_PIN       = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
         LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -27,13 +28,10 @@ class Lights:
         self.ALL = range(self.strip.numPixels())
         self.L_EYE = [0, 1, 2, 3]
         self.R_EYE = [4, 5, 6, 7]
-        self.MOUTH = [8, 9, 10, 11, 12]
+        self.MOUTH = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
         self.OTHER = set(self.ALL).difference(set(self.L_EYE + self.R_EYE + self.MOUTH))
         self.open_count = 0
-
-    def normal(self):
-        self.set_colour(self.MOUTH, white)
-        self.set_colours([self.L_EYE, self.R_EYE], [self.get_random_colour(), self.get_random_colour()])
+        self.p_distance = 0
 
     def flash_eyes(self, times=1):
         for i in range(times):
@@ -42,17 +40,23 @@ class Lights:
                 self.set_colours([self.L_EYE, self.R_EYE], [green, red])
             else:
                 self.set_colours([self.L_EYE, self.R_EYE], [red, green])
-            sleep(700 / 1000.0)
+            sleep(200 / 1000.0)
 
-    def on_open(self):
+    def on_open(self, distance):
         # Flash the eyes from red to green, alternate
-        self.flash_eyes(4)
-        self.color_dissolve_to(self.L_EYE + self.R_EYE, red, wait_ms=100)
+        self.flash_eyes(2)
+        
+        # Set the mouth lights to go into center range = 110 - 255
+        percent_open = (distance - 60.0) / (255.0 - 60.0) * 1.3
+        open_range = int(percent_open * (len(self.MOUTH) / 2.0)) + 1
+        self.set_colour_later(self.MOUTH, off)
+        self.set_colour(self.MOUTH[0:open_range] + self.MOUTH[len(self.MOUTH) - open_range:], white)
+        
 
     def on_close(self):
         self.open_count += 1
-        self.colour_wipe(self.ALL, Color(0, 0, 0), 1, 5)
-        self.normal()
+        self.colour_wipe(self.MOUTH, self.get_random_colour(), 100, 5)
+        self.set_colours([self.L_EYE, self.R_EYE], [red, red])
 
     def clear_all(self):
         for i in self.ALL:
@@ -65,22 +69,14 @@ class Lights:
                 self.strip.setPixelColor(i, colour)
         self.strip.show()
 
+    def set_colour_later(self, pixel_range, colour):
+        for i in pixel_range:
+            self.strip.setPixelColor(i, colour)
+
     def set_colour(self, pixel_range, colour):
         for i in pixel_range:
             self.strip.setPixelColor(i, colour)
         self.strip.show()
-
-    def color_dissolve_to(self, pixel_range, new_colour, wait_ms=50, jump=5):
-        pixel_range = set(pixel_range)
-        count = 0
-        while count < len(pixel_range):
-            i = random.random(pixel_range)
-            pixel_range.remove(i)
-            self.strip.setPixelColor(i, new_colour)
-            count += 1
-            if i % jump == 0:
-                self.strip.show()
-                sleep(wait_ms/1000.0)
 
     def colour_wipe(self, pixel_range, colour, wait_ms=50, jump=3):
         for i in pixel_range:
