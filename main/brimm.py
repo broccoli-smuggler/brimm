@@ -9,7 +9,7 @@ if len(sys.argv) > 1:
         debug = True
 
 lights = lights.Lights()
-trigger = trigger.Trigger(23)
+trigger = trigger.Trigger(23, trigger_distance=40)
 samples = samples.SamplePlayer()
 p_is_open = False
 
