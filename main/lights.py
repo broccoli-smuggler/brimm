@@ -18,7 +18,7 @@ class Lights:
         #LED_PIN       = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
         LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
         LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-        LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+        LED_BRIGHTNESS = 240     # Set to 0 for darkest and 255 for brightest
         LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
         LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
             
@@ -27,11 +27,11 @@ class Lights:
         # Intialize the library (must be called once before other functions).
         self.strip.begin()
         self.ALL = range(self.strip.numPixels())
-        self.L_EYE = [0, 1, 2, 3]
-        self.R_EYE = [4, 5, 6, 7]
-        self.MOUTH = range(60, 80)
+        self.L_EYE = range(105, 124)
+        self.R_EYE = range(55, 74)
+        self.MOUTH = range(81, 98)
         self.ALL_NOT_OTHER = set(self.ALL) - set(self.L_EYE) - set(self.R_EYE) - set(self.MOUTH)
-        self.OTHER = set(self.ALL).difference(set(self.L_EYE + self.R_EYE + self.MOUTH))
+        self.OTHER = list(set(self.ALL).difference(set(self.L_EYE + self.R_EYE + self.MOUTH)))
         self.open_count = 0
         self.p_distance = 0
         self.flash_time = 200.0/1000.0
@@ -56,16 +56,19 @@ class Lights:
         self.flash_eyes()
         
         # Set the mouth lights to go into center range = 110 - 255
-        self.set_colour_later(self.MOUTH, off)
-        self.set_colour_later(self.ALL_NOT_OTHER, elsey)
+        self.set_colour_later(self.OTHER, off)
+        self.set_colour_later(self.MOUTH, elsey)
         
         percent_open = (distance - 60.0) / (255.0 - 60.0) * 1.3
-        open_range = int(percent_open * (len(self.MOUTH) / 2.0)) + 1
-        self.set_colour(self.MOUTH[0:open_range] + self.MOUTH[len(self.MOUTH) - open_range:], white)
+        if percent_open <= 0:
+            percent_open = 0
+        
+        open_range = int(percent_open * (len(self.OTHER) / 2.0)) + 1
+        self.set_colour(self.OTHER[0:open_range] + self.OTHER[len(self.OTHER) - open_range:], white)
 
     def on_close(self):
         self.open_count += 1
-        self.set_colours([self.L_EYE, self.R_EYE, self.MOUTH, self.ALL_NOT_OTHER], [red, red, self.get_random_colour(), off])
+        self.set_colours([self.L_EYE, self.R_EYE, self.MOUTH, self.OTHER], [red, red, self.get_random_colour(), off])
 
     def clear_all(self):
         for i in self.ALL:
