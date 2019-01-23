@@ -10,6 +10,20 @@ We'll convert a rubbish bin into a friendly monster that talks, lights up (and h
 ![Concept sketch](brimm.jpg)
 *Concept sketch*
 
+Turn on i2c 
+`` sudo raspi-config``
+
+Install requirements.
+`` python install -r requirements.txt``
+
+Install gstreamer
+``sudo apt-get install libgstreamer1.0-dev libgstreamer1.0-0-dbg libgstreamer1.0-0 gstreamer1.0-tools gstreamer-tools gstreamer1.0-doc gstreamer1.0-x``
+
+Run brimm on start up
+``nano /etc/rc.local``
+
+Add ``sudo python /home/pi/brimm/main/brimm.py &`` above the exit. 
+
 BOM
 https://docs.google.com/spreadsheets/d/1yVDrTSlCtS1k4X6xUT0yPUyhm17ppG_9IsI53mKKvTw/edit?usp=sharing
 
